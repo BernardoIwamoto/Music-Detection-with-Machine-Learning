@@ -7,24 +7,21 @@ import pandas as pd
 
 class MusicCoverIdentifier:
     def __init__(self):
-        # Modelo de linguagem para embeddings avançados
         self.embedding_model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
         
         # Dados das músicas (substituir por API real posteriormente)
         self.original_songs = {}
         self.covers = {}
         
-        # Inicializar com alguns exemplos
         self._load_sample_data()
     
     def _load_sample_data(self):
-        """Carrega dados de exemplo de uma API ou dataset público"""
+        """Carrega dados de exemplo de uma API ou dataset público se for integrar com busca online"""
         try:
             # Exemplo: buscar dados da Genius API (implementação real precisaria de chave API)
             # response = requests.get(f"https://api.genius.com/songs/...")
             # data = response.json()
             
-            # Dados de exemplo (substituir por chamada real à API)
             self.original_songs = {
                 "Bohemian Rhapsody": "Is this the real life is this just fantasy",
                 "Imagine": "Imagine there's no heaven it's easy if you try",
@@ -38,19 +35,15 @@ class MusicCoverIdentifier:
             
         except Exception as e:
             print(f"Erro ao carregar dados: {e}")
-            # Continuar com os dados de exemplo
     
     def _preprocess_text(self, text):
-        """Pré-processamento básico do texto"""
         text = text.lower()
         text = ''.join([c for c in text if c.isalpha() or c == ' '])
         return ' '.join(text.split())
     
     def find_similar_songs(self, lyrics, threshold=0.7):
-        """Encontra músicas similares usando embeddings e similaridade de cosseno"""
         processed_lyrics = self._preprocess_text(lyrics)
         
-        # Método 1: TF-IDF tradicional (rápido para comparações simples)
         all_songs = list(self.original_songs.items()) + list(self.covers.items())
         song_titles = [title for title, _ in all_songs]
         song_lyrics = [self._preprocess_text(lyr) for _, lyr in all_songs]
@@ -58,32 +51,26 @@ class MusicCoverIdentifier:
         vectorizer = TfidfVectorizer()
         tfidf_matrix = vectorizer.fit_transform([processed_lyrics] + song_lyrics)
         
-        # Calcular similaridades
         similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:]).flatten()
         
-        # Método 2: Usar Sentence Transformers para embeddings semânticos
         embeddings = self.embedding_model.encode([processed_lyrics] + song_lyrics)
         semantic_similarities = cosine_similarity(embeddings[0:1], embeddings[1:]).flatten()
         
-        # Combinar os resultados (pesos podem ser ajustados)
         combined_scores = 0.4 * similarities + 0.6 * semantic_similarities
         
-        # Encontrar a melhor correspondência
         best_match_idx = np.argmax(combined_scores)
         best_score = combined_scores[best_match_idx]
         best_match = song_titles[best_match_idx]
         
-        # Determinar se é um cover ou original
         is_cover = best_match in self.covers
         original_song = None
         
         if is_cover:
-            # Se for cover, encontrar a música original correspondente
             for orig_title, orig_lyrics in self.original_songs.items():
                 orig_embedding = self.embedding_model.encode([self._preprocess_text(orig_lyrics)])[0]
                 cover_embedding = self.embedding_model.encode([self._preprocess_text(self.covers[best_match])])[0]
                 sim = cosine_similarity([orig_embedding], [cover_embedding])[0][0]
-                if sim > 0.8:  # Threshold para considerar como cover
+                if sim > 0.8: 
                     original_song = orig_title
                     break
         
@@ -96,7 +83,6 @@ class MusicCoverIdentifier:
         }
     
     def add_new_song(self, title, lyrics, is_cover=False, original_title=None):
-        """Adiciona uma nova música à base de dados"""
         processed_lyrics = self._preprocess_text(lyrics)
         
         if is_cover and original_title:
@@ -107,9 +93,7 @@ class MusicCoverIdentifier:
             print(f"✅ Música original '{title}' adicionada à base de dados")
     
     def search_online_songs(self, query):
-        """Busca músicas online (implementação simulada)"""
         print(f"🔍 Buscando músicas online para: '{query}'")
-        # Implementação real usaria uma API como Genius, Spotify, etc.
         return {
             "results": [
                 {"title": f"{query} (Official)", "lyrics": "Sample lyrics for official version"},
