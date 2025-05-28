@@ -4,7 +4,7 @@
 ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-Sentence%20Transformers-orange.svg)
 ![NLP](https://img.shields.io/badge/NLP-TF--IDF%20%2B%20Embeddings-green.svg)
 
-## 📌 Visão Geral
+##  Visão Geral
 
 O **Music Cover Identifier** é um sistema inteligente que utiliza técnicas de NLP e Machine Learning para identificar automaticamente se uma letra de música é original ou uma versão cover, além de encontrar a música original correspondente no caso de covers.
 
@@ -13,15 +13,15 @@ O projeto combina:
 - **TF-IDF tradicional** para comparações rápidas
 - **Similaridade de cosseno** em espaços vetoriais de alta dimensão
 
-## ✨ Features Principais
+##  Features Principais
 
-- 🔍 Identificação automática de covers musicais
-- 📊 Análise de similaridade entre letras de música
-- 🌐 Busca simulada de músicas online (pronta para integração com APIs reais)
-- 🧠 Modelos de machine learning state-of-the-art
-- 💾 Sistema de armazenamento em memória (facilmente expansível para banco de dados)
+-  Identificação automática de covers musicais
+-  Análise de similaridade entre letras de música
+-  Busca simulada de músicas online (pronta para integração com APIs reais)
+-  Modelos de machine learning state-of-the-art
+-  Sistema de armazenamento em memória (facilmente expansível para banco de dados)
 
-## 🛠️ Como Instalar e Executar
+##  Como Instalar e Executar
 
 ### Pré-requisitos
 
@@ -58,7 +58,7 @@ pip install sentence-transformers scikit-learn pandas numpy requests
 python music_cover_identifier.py
 ```
 
-## 🎮 Como Usar
+##  Como Usar
 
 O sistema oferece um menu interativo com 3 opções principais. Para iniciar, execute:
 
@@ -103,7 +103,7 @@ Pressione 'l' + Enter
 Para sair rapidamente:
 Pressione 'q' + Enter
 
-## 📚 Documentação das Principais
+##  Documentação das Principais
 
 FunçõesMusicCoverIdentifier (Classe Principal)
 ## __init__()
@@ -143,7 +143,7 @@ Adiciona novas músicas à base de dados:
 
 - Retorna resultados formatados
 
-## 🤝 Como Contribuir
+##  Como Contribuir
 1. Faça um fork do projeto
 
 2. Crie uma branch para sua feature (git checkout -b feature/AmazingFeature)
